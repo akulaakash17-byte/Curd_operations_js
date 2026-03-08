@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>todo</title>
+
+</head>
+<body>
+    <div class="flex flex-col justify-center items-center">
+        <input id="input" type="text" placeholder="enter a task into bucket list "><span><button onclick="add(event)">Add task</button></span>
+        <p id="error"></p>
+        <div id="tasks"></div>
+        
+        
+    </div>
+
+    <script>
+        let bucketList = [
+            {id:1 ,task:"Boxing"},
+            {id:2 ,task:"Skydiving"}
+        ];
+        function showTasks(){
+            let content = '';
+            for (let i=0 ; i < bucketList.length ;i++){
+                content += `<div>
+                                ${bucketList[i].id}. ${bucketList[i].task} 
+                                <span><button onclick="deleting(${bucketList[i].id})">Delete</button></span>
+                                <span><button onclick="update(${bucketList[i].id})">update</button></span>
+                            </div>`
+            }
+            document.getElementById("tasks").innerHTML = content ;
+
+        }
+        showTasks();
+
+//add
+        function add(event){
+            let inputValue = document.getElementById("input").value;
+            event.preventDefault();
+
+            if (inputValue === ""){
+                document.getElementById("error").innerHTML = "input field is empty"
+                return;
+            }
+
+            bucketList.push({id:bucketList.length+1 , task:inputValue})
+            console.log(bucketList)
+          
+            showTasks();
+            document.getElementById("input").value = "";
+           
+        }
+        console.log(bucketList)
+//delete
+        function deleting(id){
+                bucketList = bucketList.filter(function(task){
+                    return task.id !== id;
+                });
+                showTasks()
+        }
+
+        //update 
+        function update(id){
+            
+                for (let i = 0 ;i <bucketList.length ;i++){
+
+                    if (bucketList[i].id === id){
+                        document.getElementById("input").value = bucketList[i].task
+                    }
+                }
+                deleting(id);
+        }
+    </script>
+
+</body>
+</html>
